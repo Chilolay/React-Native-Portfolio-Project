@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
-import RenderFeaturedCards from "../components/featured/RenderFeaturedCards";
+import { View, StyleSheet, ScrollView } from "react-native";
 import NavHeader from "../components/NavHeader";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import HomeScreen from "./HomeScreen";
 
 const Main = () => {
   //   const [isLoading, setLoading] = useState(true);
@@ -29,9 +29,9 @@ const Main = () => {
   //   console.log(data);
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
+      <View>
         <NavHeader />
-        <RenderFeaturedCards />
+        <HomeScreen />
       </View>
     </SafeAreaProvider>
   );
@@ -40,10 +40,10 @@ const Main = () => {
 export default Main;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: "#fff",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
 });

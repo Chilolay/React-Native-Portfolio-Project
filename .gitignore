@@ -10,7 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
-features/apiSlice.js
+# features/apiSlice.js
 # macOS
 .DS_Store
 
