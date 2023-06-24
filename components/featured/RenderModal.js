@@ -1,5 +1,6 @@
 import { Modal, View, Text, StyleSheet, Linking } from "react-native";
-import { Icon, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/AntDesign";
 import { useState, useCallback, useEffect } from "react";
 
 const OpenUrl = ({ url, children }) => {
@@ -26,44 +27,55 @@ const RenderModal = ({ featuredGame, setFeaturedGame }) => {
 
   if (featuredGame) {
     return (
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={showModal}
-        onRequestClose={() => {
-          console.log("closing");
-        }}
-      >
-        <View>
-          <View>
-            <Text>{featuredGame.name}</Text>
-            <Icon
-              name="close"
-              type="antDesign"
-              onPress={() => {
-                setShowModal(false);
-                setFeaturedGame(null);
-              }}
-            />
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={showModal}
+          onRequestClose={() => {
+            console.log("closing");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modal}>
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                <Text style={styles.modalTitle}>{featuredGame.name}</Text>
+                <Button
+                  style={{ flexGrow: 1, justifyContent: "flex-end" }}
+                  icon={<Icon name="close" type="antDesign" size={15} />}
+                  onPress={() => {
+                    setShowModal(false);
+                    setFeaturedGame(null);
+                  }}
+                />
+              </View>
+              <View style={styles.mainView}>
+                <Text style={styles.modalText}>
+                  Number of Players: {featuredGame.min_players} -{" "}
+                  {featuredGame.max_players}
+                </Text>
+                <Text style={styles.modalText}>
+                  Playtime: {featuredGame.min_playtime} -{" "}
+                  {featuredGame.max_playtime} minutes.
+                </Text>
+                <Text style={styles.modalText}>
+                  For players age {featuredGame.min_age} and up
+                </Text>
+                <Text style={{ margin: 5, marginBottom: 20 }}>
+                  Description: {featuredGame.description}
+                </Text>
+              </View>
+              <OpenUrl url={featuredGame.official_url}>
+                <Text>See Game Rules Here</Text>
+              </OpenUrl>
+            </View>
           </View>
-          <View>
-            <Text>
-              Number of Players: {featuredGame.min_players} -{" "}
-              {featuredGame.max_players}
-            </Text>
-            <Text>
-              Playtime: {featuredGame.min_playtime} -{" "}
-              {featuredGame.max_playtime} minutes.
-            </Text>
-            <Text>For players age {featuredGame.min_age} and up</Text>
-            <Text>{featuredGame.description}</Text>
-          </View>
-          <OpenUrl url={featuredGame.official_url}>
-            <Text>See Game Rules Here</Text>
-          </OpenUrl>
-          {}
-        </View>
-      </Modal>
+        </Modal>
+      </View>
     );
   } else {
     return <></>;
@@ -71,10 +83,14 @@ const RenderModal = ({ featuredGame, setFeaturedGame }) => {
 };
 
 const styles = StyleSheet.create({
-  modal: {
+  centeredView: {
     flex: 1,
-    flexDirection: "row",
-    // justifyContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modal: {
+    alignItems: "center",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -89,26 +105,17 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    display: "flex",
-    flexDirection: "row",
     fontSize: 20,
     fontWeight: "bold",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-  modalIcon: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
-  },
-  mainText: {
+    flexGrow: 3,
     justifyContent: "flex-start",
-    alignItems: "center",
   },
-  button: {
-    justifyContent: "center",
-    alignItems: "flex-end",
+  modalText: {
+    margin: 5,
+    fontWeight: "bold",
+  },
+  mainView: {
+    marginTop: 22,
   },
 });
 

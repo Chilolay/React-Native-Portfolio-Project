@@ -1,12 +1,14 @@
-import { View } from "react-native";
 import FeaturedCards from "../components/featured/FeaturedCards";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { FEATURED } from "../shared/featured";
+import Pagination from "../components/Pagination";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
-    <View>
+    <SafeAreaView>
       <FeaturedCards games={FEATURED} />
-    </View>
+      <Pagination />
+    </SafeAreaView>
   );
 };
 

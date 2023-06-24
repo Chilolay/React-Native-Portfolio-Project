@@ -1,32 +1,30 @@
 import { Card, Button, Icon } from "react-native-elements";
+import { StyleSheet, View, Text, FlatList } from "react-native";
+import { useGetSearchQuery } from "../../features/apiSlice";
 import { useState } from "react";
-import { StyleSheet, View, Text, FlatList, Linking, Modal } from "react-native";
-import RenderModal from "./RenderModal";
+import React from "react";
+import SearchModal from './SearchModal'
 
-const FeaturedCards = (props) => {
-  const [featuredGame, setFeaturedGame] = useState(null);
+const SearchCards = (props) => {
+  const [searchResult, setSearchResult] = useState(null);
 
-  const renderFeaturedCard = ({ item: games }) => {
+  const renderSearchCards = ({ item }) => {
     return (
       <View style={{ flex: 1, paddingBottom: 10 }}>
         <Card
-          key={games.id}
+          key={}
           containerStyle={{
             height: 250,
             justifyContent: "flex-end",
           }}
         >
           <View>
-            <Card.Image
-              style={{
-                resizeMode: "contain",
-                marginBottom: 15,
-                height: 100,
-              }}
-              source={{ uri: games.image_url }}
-            />
+          <Card.Image
+            style={styles.cardImage}
+            source={data.games.images.original}
+          />
           </View>
-          <Card.Title>{games.name}</Card.Title>
+          <Card.Title>{data.games[0].name}</Card.Title>
           <Card.Divider />
           <Button
             title="Learn More"
@@ -38,7 +36,7 @@ const FeaturedCards = (props) => {
     );
   };
 
-  const renderHeader = () => {
+    const renderHeader = () => {
     return (
       <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: "center" }}>
         Featured Games
@@ -62,23 +60,31 @@ const FeaturedCards = (props) => {
 
   return (
     <View>
-      <FlatList
-        data={props.games}
-        renderItem={renderFeaturedCard}
-        keyExtractor={(item) => item.id}
+      <FlatList 
+        // data={props.games}
+        // renderItem={renderFeaturedCard}
+        // keyExtractor={(item) => item.id}
         numColumns={2}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         contentContainerStyle={{ marginHorizontal: 20, paddingVertical: 20 }}
       />
-      <RenderModal
-        featuredGame={featuredGame}
-        setFeaturedGame={setFeaturedGame}
-      />
+      <SearchModal />
     </View>
-  );
+  )
 };
 
-export default FeaturedCards;
+const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardImage: {
+    maxHeight: 200,
+    maxWidth: 150,
+    margin: 10,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default SearchCards;

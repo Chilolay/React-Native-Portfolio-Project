@@ -7,7 +7,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getSearch: builder.query({
       query: () =>
-        `/search?name=${SearchValue}&pretty=true&fuzzy_match=true&limit=10&client_id=f08QuEXBtp`,
+        `/search?name=${SearchValue}&pretty=true&fuzzy_match=true&client_id=f08QuEXBtp`,
     }),
     getCategories: builder.query({
       query: () => `/game/categories?pretty=true&client_id=f08QuEXBtp`,

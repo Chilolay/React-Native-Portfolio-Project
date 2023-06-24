@@ -1,49 +1,63 @@
-import { View, StyleSheet, ScrollView } from "react-native";
-import NavHeader from "../components/NavHeader";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Icon } from "react-native-elements";
+import * as React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import HomeScreen from "./HomeScreen";
+import SearchScreen from "./SearchScreen";
+
+const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  //   const [isLoading, setLoading] = useState(true);
-  //   const [data, setData] = useState([]);
-
-  //   const getGames = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `https://api.boardgameatlas.com/api/search?name=Catan&client_id=f08QuEXBtp`
-  //       ).then((response) => {
-  //         console.log(response);
-  //         return response.json();
-  //       });
-  //       setData(response);
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     getGames();
-  //   }, []);
-  //   console.log(data);
   return (
-    <SafeAreaProvider>
-      <View>
-        <NavHeader />
-        <HomeScreen />
-      </View>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitle: "Game Finder",
+          headerTitleAlign: "center",
+          headerBackVisible: "true",
+        }}
+        initialRouteName="Home"
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            title: "Home",
+            headerRight: () => (
+              <Icon
+                type="font-awesome"
+                name="search"
+                color="black"
+                onPress={() => {
+                  navigation.navigate("Search");
+                }}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={({ navigation }) => ({
+            title: "Search Results",
+            headerLeft: () => (
+              <Icon
+                type="font-awesome"
+                name="home"
+                color="black"
+                onPress={() => navigation.navigate("Home")}
+              />
+            ),
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 export default Main;
 
-const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: "#fff",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-});
+// const styles = StyleSheet.create({
+
+// });
