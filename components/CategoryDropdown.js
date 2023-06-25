@@ -1,15 +1,18 @@
 import SelectDropdown from "react-native-select-dropdown";
-import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
+import { useEffect } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import CATEGORYLIST from "../shared/categoryList";
-import RenderCategoryItems from "./categories/RenderCategoryItems";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrent } from "../features/categorySlice";
+import { useNavigation } from "@react-navigation/native";
 
 const CategoryDropdown = () => {
-  console.log("CATEGORYLIST", CATEGORYLIST);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
-    <SafeAreaView style={styles.saveAreaViewContainer}>
-      {/* <View style={styles.viewContainer}> */}
+    <View style={styles.viewContainer}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical={false}
@@ -17,15 +20,11 @@ const CategoryDropdown = () => {
       >
         <SelectDropdown
           data={CATEGORYLIST}
-          defaultValue={"Canada"}
+          defaultValue={"Card Game"}
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+            dispatch(setCurrent(selectedItem));
+            navigation.navigate("CategorySearch");
           }}
-          // onSelect={(selectedItem, index) => {
-          //   return (
-          //     <RenderCategoryItems selectedItem={selectedItem} key={index} />
-          //   );
-          // }}
           defaultButtonText={"Search Games by Category"}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem.name;
@@ -34,7 +33,6 @@ const CategoryDropdown = () => {
             return item.name;
           }}
           buttonStyle={styles.dropdown1BtnStyle}
-          buttonTextStyle={styles.dropdown1BtnTxtStyle}
           renderDropdownIcon={(isOpened) => {
             return (
               <FontAwesome
@@ -50,17 +48,12 @@ const CategoryDropdown = () => {
           rowTextStyle={styles.dropdown1RowTxtStyle}
         />
       </ScrollView>
-      {/* </View> */}
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  saveAreaViewContainer: {
-    backgroundColor: "#FFF",
-  },
   viewContainer: {
-    flex: 1,
     backgroundColor: "#FFF",
   },
   scrollViewContainer: {

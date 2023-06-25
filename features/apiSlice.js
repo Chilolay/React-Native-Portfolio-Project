@@ -6,15 +6,15 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.boardgameatlas.com/api" }),
   endpoints: (builder) => ({
     getSearch: builder.query({
-      query: () =>
+      query: (searchValue) =>
         `/search?name=${searchValue}&pretty=true&fuzzy_match=true&client_id=f08QuEXBtp`,
     }),
     getCategories: builder.query({
-      query: () =>
+      query: (categoryValue) =>
         `search?categories=${categoryValue}&pretty=true&client_id=f08QuEXBtp`,
     }),
     getGamePrices: builder.query({
-      query: () =>
+      query: (gameID) =>
         `/game/prices?pretty=true&game_id=${gameID}&client_id=f08QuEXBtp`,
     }),
   }),

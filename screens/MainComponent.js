@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeScreen from "./HomeScreen";
 import SearchScreen from "./SearchScreen";
+import CategorySearchScreen from "./CategorySearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,31 @@ const Main = () => {
                 onPress={() => {
                   navigation.navigate("Search");
                 }}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="CategorySearch"
+          component={CategorySearchScreen}
+          options={({ navigation }) => ({
+            title: "CategorySearch",
+            headerRight: () => (
+              <Icon
+                type="font-awesome"
+                name="search"
+                color="black"
+                onPress={() => {
+                  navigation.navigate("Search");
+                }}
+              />
+            ),
+            headerLeft: () => (
+              <Icon
+                type="font-awesome"
+                name="home"
+                color="black"
+                onPress={() => navigation.navigate("Home")}
               />
             ),
           })}

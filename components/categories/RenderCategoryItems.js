@@ -1,19 +1,9 @@
 import React from "react";
 import { View, Text, ActivityIndicator, SafeAreaView } from "react-native";
-import { useGetCategoriesQuery } from "../../features/apiSlice";
 import CategorySearchCards from "./CategorySearchCards";
+import CategoryDropdown from "../CategoryDropdown";
 
-const RenderCategoryItems = ({ selectedItem }) => {
-  const categoryValue = selectedItem.id;
-
-  const {
-    data: categoryItems = [],
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetCategoriesQuery(categoryValue);
-
+const RenderCategoryItems = () => {
   if (isLoading) {
     content = <ActivityIndicator />;
   } else if (isSuccess) {
