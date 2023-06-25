@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react";
-import { View, Button, StyleSheet, Text } from "react-native";
+import { useState } from "react";
+import { SafeAreaView, View, Button, StyleSheet, Text } from "react-native";
 import PaginationDot from "react-native-animated-pagination-dot";
 
-const Pagination = ({
-  color,
-  sizeRatio = 1.0,
-  maxPage = 10,
-  inactiveColor,
-}) => {
+const Pagination = () => {
   const [page, setPage] = useState(0);
+  const color = "#2189DC";
+  const sizeRatio = 1.0;
+  const maxPage = 5;
+  const inactiveColor = "grey";
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "row",
@@ -20,13 +19,14 @@ const Pagination = ({
         marginBottom: 10,
       }}
     >
-      <View style={{ flex: 5, flexDirection: "column" }}>
+      {/* <View style={{ flex: 1, flexDirection: "row" }}>
         <View
           style={{
             flex: 1,
             justifyContent: "space-between",
             flexDirection: "row",
             alignItems: "center",
+            marginRight: 12,
           }}
         >
           <Text style={{ fontSize: 16, fontWeight: "400", color: "black" }}>
@@ -42,6 +42,7 @@ const Pagination = ({
             justifyContent: "space-between",
             flexDirection: "row",
             alignItems: "center",
+            marginRight: 12,
           }}
         >
           <Text style={{ fontSize: 16, fontWeight: "400", color: "black" }}>
@@ -51,15 +52,31 @@ const Pagination = ({
             {sizeRatio}
           </Text>
         </View>
-      </View>
-      <View style={styles.container}>
+      </View> */}
+
+      <View
+        style={{
+          flex: 2,
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
         <Button
           title="Prev"
           onPress={() => {
             setPage(page - 1);
           }}
         />
-        <PaginationDot activeDotColor={"black"} curPage={page} maxPage={20} />
+
+        <PaginationDot
+          activeDotColor={color}
+          curPage={page}
+          inactiveDotColor={inactiveColor ?? undefined}
+          maxPage={maxPage}
+          sizeRatio={sizeRatio}
+        />
+
         <Button
           title="Next"
           onPress={() => {
@@ -67,7 +84,7 @@ const Pagination = ({
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
