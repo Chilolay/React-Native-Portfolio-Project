@@ -1,13 +1,11 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import RenderSearch from "../components/search/RenderSearch";
-import Pagination from "../components/Pagination";
+import SearchBar from "../components/search/SearchBar";
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
-      <RenderSearch />
-      <Pagination />
+      <SearchBar />
     </SafeAreaView>
   );
 };

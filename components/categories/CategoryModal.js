@@ -1,7 +1,16 @@
-import { Modal, View, Text, StyleSheet, Linking } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  Linking,
+  useWindowDimensions,
+} from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useState, useCallback, useEffect } from "react";
+import { RenderHTML } from "react-native-render-html";
 
 const OpenUrl = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -16,16 +25,18 @@ const OpenUrl = ({ url, children }) => {
   return <Button title={children} onPress={handlePress} />;
 };
 
-const CategoryModal = ({ featuredGame, setFeaturedGame }) => {
+const CategoryModal = ({ categoryGame, setCategoryGame }) => {
   const [showModal, setShowModal] = useState(false);
 
+  const { width, height } = useWindowDimensions();
+
   useEffect(() => {
-    if (featuredGame != null) {
+    if (categoryGame != null) {
       setShowModal(true);
     }
-  }, [featuredGame]);
+  }, [categoryGame]);
 
-  if (featuredGame) {
+  if (categoryGame) {
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -35,45 +46,55 @@ const CategoryModal = ({ featuredGame, setFeaturedGame }) => {
           onRequestClose={() => {
             console.log("closing");
           }}
+          style={{ height: height * 2 }}
         >
-          <View style={styles.centeredView}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.modal}>
               <View
                 style={{
                   flexDirection: "row",
                 }}
               >
-                <Text style={styles.modalTitle}>{featuredGame.name}</Text>
+                <Text style={styles.modalTitle}>{categoryGame.name}</Text>
                 <Button
-                  style={{ flexGrow: 1, justifyContent: "flex-end" }}
+                  style={{
+                    flexGrow: 1,
+                    justifyContent: "flex-end",
+                    paddingLeft: 50,
+                  }}
                   icon={<Icon name="close" type="antDesign" size={15} />}
                   onPress={() => {
                     setShowModal(false);
-                    setFeaturedGame(null);
+                    setCategoryGame(null);
                   }}
                 />
               </View>
               <View style={styles.mainView}>
                 <Text style={styles.modalText}>
-                  Number of Players: {featuredGame.min_players} -{" "}
-                  {featuredGame.max_players}
+                  <Text style={{ fontWeight: "bold" }}>Number of Players:</Text>{" "}
+                  {categoryGame.min_players} - {categoryGame.max_players}
                 </Text>
                 <Text style={styles.modalText}>
-                  Playtime: {featuredGame.min_playtime} -{" "}
-                  {featuredGame.max_playtime} minutes.
+                  <Text style={{ fontWeight: "bold" }}>Playtime: </Text>
+                  {categoryGame.min_playtime} - {categoryGame.max_playtime}{" "}
+                  minutes.
                 </Text>
-                <Text style={styles.modalText}>
-                  For players age {featuredGame.min_age} and up
+                <Text style={{ fontWeight: "bold", margin: 5 }}>
+                  For players age {categoryGame.min_age} and up
                 </Text>
                 <Text style={{ margin: 5, marginBottom: 20 }}>
-                  Description: {featuredGame.description}
+                  <Text style={{ fontWeight: "bold" }}>Description:</Text>
+                  <RenderHTML
+                    contentWidth={width}
+                    source={{ html: categoryGame.description }}
+                  />
                 </Text>
               </View>
-              <OpenUrl url={featuredGame.official_url}>
+              <OpenUrl url={categoryGame.official_url}>
                 <Text>See Game Rules Here</Text>
               </OpenUrl>
             </View>
-          </View>
+          </ScrollView>
         </Modal>
       </View>
     );
@@ -84,13 +105,20 @@ const CategoryModal = ({ featuredGame, setFeaturedGame }) => {
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
-  modal: {
+  scrollView: {
+    justifyContent: "center",
     alignItems: "center",
+    marginVertical: 50,
+    removeClippedSubviews: true,
+  },
+  modal: {
+    flex: 1,
+    alignItems: "center",
+    removeClippedSubviews: true,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -112,7 +140,6 @@ const styles = StyleSheet.create({
   },
   modalText: {
     margin: 5,
-    fontWeight: "bold",
   },
   mainView: {
     marginTop: 22,

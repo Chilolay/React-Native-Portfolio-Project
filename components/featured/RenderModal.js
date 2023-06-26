@@ -41,11 +41,16 @@ const RenderModal = ({ featuredGame, setFeaturedGame }) => {
               <View
                 style={{
                   flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
                 <Text style={styles.modalTitle}>{featuredGame.name}</Text>
                 <Button
-                  style={{ flexGrow: 1, justifyContent: "flex-end" }}
+                  style={{
+                    display: "flex",
+                    flexGrow: 1,
+                    paddingLeft: 30,
+                  }}
                   icon={<Icon name="close" type="antDesign" size={15} />}
                   onPress={() => {
                     setShowModal(false);
@@ -87,9 +92,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 20,
   },
   modal: {
+    // flex: 1,
     alignItems: "center",
     margin: 20,
     backgroundColor: "white",
@@ -107,7 +113,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    flexGrow: 3,
+    flexGrow: 2,
     justifyContent: "flex-start",
   },
   modalText: {

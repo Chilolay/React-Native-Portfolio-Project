@@ -1,4 +1,5 @@
 import { Icon } from "react-native-elements";
+import { Pressable, Text } from "react-native";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,7 +15,13 @@ const Main = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerTitle: "Game Finder",
+          headerTitle: () => (
+            <Pressable onPress={() => navigation.navigate("Home")}>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                Game Finder
+              </Text>
+            </Pressable>
+          ),
           headerTitleAlign: "center",
           headerBackVisible: "true",
         }}
@@ -33,6 +40,7 @@ const Main = () => {
                 onPress={() => {
                   navigation.navigate("Search");
                 }}
+                style={{ marginHorizontal: 5 }}
               />
             ),
           })}
@@ -50,6 +58,7 @@ const Main = () => {
                 onPress={() => {
                   navigation.navigate("Search");
                 }}
+                style={{ marginHorizontal: 5 }}
               />
             ),
             headerLeft: () => (
@@ -58,6 +67,7 @@ const Main = () => {
                 name="home"
                 color="black"
                 onPress={() => navigation.navigate("Home")}
+                style={{ marginHorizontal: 5 }}
               />
             ),
           })}
@@ -73,6 +83,7 @@ const Main = () => {
                 name="home"
                 color="black"
                 onPress={() => navigation.navigate("Home")}
+                style={{ marginHorizontal: 5 }}
               />
             ),
           })}

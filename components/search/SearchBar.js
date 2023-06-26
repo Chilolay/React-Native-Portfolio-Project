@@ -1,64 +1,86 @@
-import React from "react";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { StyleSheet, View, TextInput } from "react-native";
-import { Icon, Button } from "react-native-elements";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCurrent } from "../../features/searchSlice";
+import SearchCards from "./SearchCards";
 
-const SearchBar = (props) => {
+const SearchBar = () => {
+  const [searchVal, setSearchVal] = useState("");
+  const dispatch = useDispatch();
+
+  const resetSearchInput = () => {
+    setSearchVal("");
+  };
+
+  useEffect(() => {
+    if (searchVal.length) {
+      dispatch(setCurrent(searchVal));
+    }
+  }, [searchVal]);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <Button
-          icon={<Icon name="search" type="feather" size={15} />}
-          onPress={() => {
-            getInputValue(searchValue);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Search Here..."
-          value={props.searchValue}
-          onChangeText={props.setSearchValue}
-          autoComplete="off"
-          inputMode="text"
-          numberOfLines={1}
-        />
-        <Button
-          icon={<Icon name="close" type="font=awesome" size={15} />}
-          onPress={() => {
-            resetSearchInput;
-          }}
-        />
+    <View>
+      <View style={styles.container}>
+        <View style={styles.searchBar}>
+          <FontAwesome
+            name="search"
+            type="feather"
+            size={15}
+            style={{ fontSize: 20, color: "#999999" }}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Search Here..."
+            onKeyPress={(key) => {
+              if (key.code == "Enter") {
+                setSearchVal(key.target.value);
+              }
+            }}
+            maxLength={15}
+            autoComplete="off"
+            inputMode="text"
+            numberOfLines={1}
+          />
+        </View>
       </View>
+      <SearchCards searchVal={searchVal} />
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
+    paddingVertical: "5%",
     margin: 15,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
     width: "90%",
   },
-  searchbarActive: {
-    padding: 10,
+  searchBar: {
+    paddingVertical: 5,
+    paddingHorizontal: 25,
     flexDirection: "row",
     width: "80%",
-    backgroundColor: "#d9dbda",
+    backgroundColor: "light-blue",
     borderRadius: 15,
+    borderWidth: 1,
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-  //   searchBarClosed: {
-  //     padding: 10,
-  //     flexDirection: "row",
-  //     width: "95%",
-  //     backgroundColor: "#d9dbda",
-  //     borderRadius: 15,
-  //     alignItems: "center",
-  //   },
+  // searchBarClosed: {
+  //   padding: 25,
+  //   flexDirection: "row",
+  //   width: "95%",
+  //   backgroundColor: "grey",
+  //   borderRadius: 15,
+  //   alignItems: "center",
+  // },
   input: {
+    color: "#999999",
     fontSize: 20,
-    marginLeft: 10,
+    marginLeft: 15,
     width: "90%",
   },
 });

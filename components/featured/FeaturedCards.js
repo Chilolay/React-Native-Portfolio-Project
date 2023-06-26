@@ -1,6 +1,6 @@
-import { Card, Button, Icon } from "react-native-elements";
+import { Card, Button } from "react-native-elements";
 import { useState } from "react";
-import { StyleSheet, View, Text, FlatList, Linking, Modal } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import RenderModal from "./RenderModal";
 
 const FeaturedCards = (props) => {
@@ -12,15 +12,15 @@ const FeaturedCards = (props) => {
         <Card
           key={games.id}
           containerStyle={{
-            height: 250,
+            minHeight: 260,
             justifyContent: "flex-end",
           }}
         >
           <View>
             <Card.Image
               style={{
-                resizeMode: "contain",
-                marginBottom: 15,
+                resizeMode: "center",
+                margin: "2%",
                 height: 100,
               }}
               source={{ uri: games.image_url }}

@@ -1,7 +1,16 @@
-import { Modal, View, Text, StyleSheet, Linking } from "react-native";
+import {
+  Modal,
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Linking,
+  useWindowDimensions,
+} from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useState, useCallback, useEffect } from "react";
+import { RenderHTML } from "react-native-render-html";
 
 const OpenUrl = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -16,78 +25,90 @@ const OpenUrl = ({ url, children }) => {
   return <Button title={children} onPress={handlePress} />;
 };
 
-// const RenderModal = ({ featuredGame, setFeaturedGame }) => {
-//   const [showModal, setShowModal] = useState(false);
+const SearchModal = ({ searchInput, setSearchInput }) => {
+  const [showModal, setShowModal] = useState(false);
 
-//   useEffect(() => {
-//     if (featuredGame != null) {
-//       setShowModal(true);
-//     }
-//   }, [featuredGame]);
+  const { width, height } = useWindowDimensions();
 
-//   if (featuredGame) {
-//     return (
-//       <View style={styles.centeredView}>
-//         <Modal
-//           animationType="slide"
-//           transparent={false}
-//           visible={showModal}
-//           onRequestClose={() => {
-//             console.log("closing");
-//           }}
-//         >
-//           <View style={styles.centeredView}>
-//             <View style={styles.modal}>
-//               <View
-//                 style={{
-//                   flexDirection: "row",
-//                 }}
-//               >
-//                 <Text style={styles.modalTitle}>{featuredGame.name}</Text>
-//                 <Button
-//                   style={{ flexGrow: 1, justifyContent: "flex-end" }}
-//                   icon={<Icon name="close" type="antDesign" size={15} />}
-//                   onPress={() => {
-//                     setShowModal(false);
-//                     setFeaturedGame(null);
-//                   }}
-//                 />
-//               </View>
-//               <View style={styles.mainView}>
-//                 <Text style={styles.modalText}>
-//                   Number of Players: {featuredGame.min_players} -{" "}
-//                   {featuredGame.max_players}
-//                 </Text>
-//                 <Text style={styles.modalText}>
-//                   Playtime: {featuredGame.min_playtime} -{" "}
-//                   {featuredGame.max_playtime} minutes.
-//                 </Text>
-//                 <Text style={styles.modalText}>
-//                   For players age {featuredGame.min_age} and up
-//                 </Text>
-//                 <Text style={{ margin: 5, marginBottom: 20 }}>
-//                   Description: {featuredGame.description}
-//                 </Text>
-//               </View>
-//               <OpenUrl url={featuredGame.official_url}>
-//                 <Text>See Game Rules Here</Text>
-//               </OpenUrl>
-//             </View>
-//           </View>
-//         </Modal>
-//       </View>
-//     );
-//   } else {
-//     return <></>;
-//   }
-// };
+  useEffect(() => {
+    if (searchInput != null) {
+      setShowModal(true);
+    }
+  }, [searchInput]);
+
+  if (searchInput) {
+    return (
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={showModal}
+          onRequestClose={() => {
+            console.log("closing");
+          }}
+          style={{ height: height * 2 }}
+        >
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View style={styles.modal}>
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                <Text style={styles.modalTitle}>{searchInput.name}</Text>
+                <Button
+                  style={{ flexGrow: 1, justifyContent: "flex-end" }}
+                  icon={<Icon name="close" type="antDesign" size={15} />}
+                  onPress={() => {
+                    setShowModal(false);
+                    setSearchInput(null);
+                  }}
+                />
+              </View>
+              <View style={styles.mainView}>
+                <Text style={styles.modalText}>
+                  Number of Players: {searchInput.min_players} -{" "}
+                  {searchInput.max_players}
+                </Text>
+                <Text style={styles.modalText}>
+                  Playtime: {searchInput.min_playtime} -{" "}
+                  {searchInput.max_playtime} minutes.
+                </Text>
+                <Text style={styles.modalText}>
+                  For players age {searchInput.min_age} and up
+                </Text>
+                <Text style={{ margin: 5, marginBottom: 20 }}>
+                  Description:
+                  <RenderHTML
+                    contentWidth={width}
+                    source={{ html: searchInput.description }}
+                  />
+                </Text>
+              </View>
+              <OpenUrl url={searchInput.official_url}>
+                <Text>See Game Rules Here</Text>
+              </OpenUrl>
+            </View>
+          </ScrollView>
+        </Modal>
+      </View>
+    );
+  } else {
+    return <></>;
+  }
+};
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+  },
+  scrollView: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 50,
+    removeClippedSubviews: true,
   },
   modal: {
     alignItems: "center",
@@ -119,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RenderModal;
+export default SearchModal;

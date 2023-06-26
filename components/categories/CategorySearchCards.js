@@ -1,16 +1,14 @@
 import { Card, Button } from "react-native-elements";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import CategoryModal from "./CategoryModal";
-import Pagination from "../Pagination";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import { useGetCategoriesQuery } from "../../features/apiSlice";
-import { ActivityIndicator } from "react-native";
 
 const CategorySearchCards = (props) => {
   const currentCategory = useSelector((state) => state.category.current);
   const [categoryGame, setCategoryGame] = useState(null);
-  console.log("currentCategory", currentCategory);
+
   const {
     data: categoryItems = [],
     isLoading,
@@ -27,26 +25,28 @@ const CategorySearchCards = (props) => {
   }
   if (isSuccess) {
     const renderCategoryCards = ({ item: games }) => {
+      let gameName =
+        games.name.length > 20 ? games.name.slice(0, 20) + "..." : games.name;
       return (
         <View style={{ flex: 1, paddingBottom: 10 }}>
           <Card
             key={games.id}
             containerStyle={{
-              height: 250,
+              minHeight: 260,
               justifyContent: "flex-end",
             }}
           >
             <View>
               <Card.Image
                 style={{
-                  resizeMode: "contain",
-                  marginBottom: 15,
+                  resizeMode: "center",
+                  marginVertical: "2%",
                   height: 100,
                 }}
                 source={{ uri: games.image_url }}
               />
             </View>
-            <Card.Title>{games.name}</Card.Title>
+            <Card.Title>{gameName}</Card.Title>
             <Card.Divider />
             <Button
               title="Learn More"
@@ -61,21 +61,7 @@ const CategorySearchCards = (props) => {
     const renderHeader = () => {
       return (
         <Text style={{ fontSize: 20, fontWeight: "bold", alignSelf: "center" }}>
-          Featured Games
-        </Text>
-      );
-    };
-    const renderFooter = () => {
-      return (
-        <Text
-          style={{
-            fontSize: 15,
-            fontWeight: "bold",
-            alignSelf: "center",
-            paddingBottom: 150,
-          }}
-        >
-          <Pagination />
+          {currentCategory.name}
         </Text>
       );
     };
@@ -88,7 +74,6 @@ const CategorySearchCards = (props) => {
           keyExtractor={(item) => item.id}
           numColumns={2}
           ListHeaderComponent={renderHeader}
-          ListFooterComponent={renderFooter}
           contentContainerStyle={{ marginHorizontal: 20, paddingVertical: 20 }}
         />
         <CategoryModal
