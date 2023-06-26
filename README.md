@@ -24,7 +24,6 @@ Currently there a few layout issues on certain screens that need to be fixed suc
 - [React Native Render HTML](https://meliorence.github.io/react-native-render-html/)
 - [React Native Dotenv](https://www.npmjs.com/package/react-native-dotenv)
 
-## Installation
 
 ## API
 [Board Game Atlas API](https://www.boardgameatlas.com/api/docs)
